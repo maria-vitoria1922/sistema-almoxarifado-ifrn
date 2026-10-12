@@ -1,0 +1,15 @@
+name: ifrn
+description: Sistema IFRN Suite.
+version: 0.0.1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  args: ^2.7.0
+  almoxarifado:
+    path: almoxarifado
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
