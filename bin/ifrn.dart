@@ -1,58 +1,74 @@
 import 'dart:io';
+
 import 'package:almoxarifado/almoxarifado.dart';
 
 const String version = '0.0.1';
 
 void main(List<String> arguments) {
-  List<Map<String, dynamic>> opcoes = [];
-
-  // Exemplos de usuários com permissões diferentes
-  // TODO: Importar a classe Usuario do pacote implementado pelo Grupo 1.
-  // Estou usando um Map para simular a classe Usuario, mas você deve usar a classe real.
-  Map<String, dynamic> usuario1 = {'nome': 'Fulano', 'permissoes': []};
-  Map<String, dynamic> usuario2 = {
+  // Usuários fictícios para demonstração até a integração da classe Usuario
+  // do Grupo 1. Em uma aplicação real, o perfil viria do login autenticado.
+  final usuario1 = {
+    'nome': 'Fulano',
+    'perfil': 'aluno',
+    'permissoes': <String>[],
+  };
+  final usuario2 = {
     'nome': 'Beltrano',
-    'permissoes': ['admin'],
+    'perfil': 'tecnico_administrativo',
+    'permissoes': <String>['admin'],
   };
 
-  // Usuário logado
-  // TODO: Você deve adaptar isso para usar a classe Usuario real.
-  var usuario = usuario2;
+  // Usuário ativo para demonstração. Troque para usuario1 para testar o bloqueio.
+  final usuario = usuario2;
 
-  opcoes += Almoxarifado.menu;
-  // TODO: Adicionar opções do seu pacote aqui
+  final opcoes = <Map<String, dynamic>>[
+    ...Almoxarifado.menu,
+    ...Retiradas.menu(
+      nomeUsuario: usuario['nome'] as String,
+      perfilUsuario: usuario['perfil'] as String,
+    ),
+  ];
 
-  String? input;
+  String input;
   do {
     print('============= IFRN Almoxarifado =============\n');
-
+    print('Usuário: ${usuario['nome']} | Perfil: ${usuario['perfil']}');
     print('Menu:');
-    for (int i = 0; i < opcoes.length; i++) {
+    for (var i = 0; i < opcoes.length; i++) {
       print('$i - ${opcoes[i]['titulo']}');
     }
-    print('\nDigite uma opção (ou "sair"):');
-    input = stdin.readLineSync() ?? '';
-    print('');
-    int? escolha = int.tryParse(input);
+
+    stdout.write('\nDigite uma opção (ou "sair"): ');
+    input = stdin.readLineSync()?.trim() ?? '';
 
     if (input == 'sair') {
-      print('Obrigado por usar o IFRN Suíte. Até a próxima!');
-    } else if (escolha != null && escolha >= 0 && escolha < opcoes.length) {
-      // Se é necessária uma permissão e o usuário não tem, exibe mensagem de
-      // acesso negado e continua o loop
-      // : Você deve adaptar a condição do if abaixo à classe Usuario real.
-      if (opcoes[escolha]['permissao'] != null &&
-          !usuario['permissoes'].contains(opcoes[escolha]['permissao'])) {
-        print('Acesso negado. Você não tem permissão para fazer isso.\n');
-        continue;
-      }
-      // Se chegou aqui, tem permissão, então executa o método correspondente
-      // à opção escolhida
-      opcoes[escolha]['metodo']();
-    } else {
-      print('Opção inválida.');
+      print('Obrigado por usar o IFRN Almoxarifado. Até a próxima!');
+      break;
     }
-    print('\nAperte ENTER para continuar...');
+
+    final escolha = int.tryParse(input);
+    if (escolha == null || escolha < 0 || escolha >= opcoes.length) {
+      print('Opção inválida.');
+    } else {
+      final opcao = opcoes[escolha];
+      final perfisPermitidos = opcao['perfisPermitidos'] as List<String>?;
+      final permissaoLegada = opcao['permissao'] as String?;
+
+      // O módulo de retiradas usa perfil funcional; o CRUD existente mantém
+      // a permissão admin enquanto a classe real de usuário não é integrada.
+      if (perfisPermitidos != null &&
+          !perfisPermitidos.contains(usuario['perfil'])) {
+        print('Acesso negado. Seu perfil não pode realizar essa operação.');
+      } else if (permissaoLegada != null &&
+          !(usuario['permissoes'] as List<String>).contains(permissaoLegada)) {
+        print('Acesso negado. Você não tem permissão para fazer isso.');
+      } else {
+        final metodo = opcao['metodo'] as Function;
+        metodo();
+      }
+    }
+
+    stdout.write('\nAperte ENTER para continuar...');
     stdin.readLineSync();
-  } while (input != 'sair');
+  } while (true);
 }

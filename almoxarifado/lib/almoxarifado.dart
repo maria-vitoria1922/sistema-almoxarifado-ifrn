@@ -1,9 +1,6 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
 library;
 
 export 'src/almoxarifado_base.dart';
 export 'src/item.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/retirada.dart';
+export 'src/retiradas.dart';
