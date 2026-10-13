@@ -8,8 +8,8 @@ environment:
 dependencies:
   args: ^2.7.0
   almoxarifado:
-    path: almoxarifado
-
+    path: ./almoxarifado
+    
 dev_dependencies:
   lints: ^6.0.0
   test: ^1.25.6

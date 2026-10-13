@@ -30,7 +30,6 @@ class Almoxarifado {
   static final List<Item> itens = [];
   static int proximoId = 1;
 
-
   // READ - Listar
   static void listar() {
     if (itens.isEmpty) {
@@ -39,11 +38,10 @@ class Almoxarifado {
       print('Itens cadastrados:');
 
       for (Item item in itens) {
-        print('ID: ${item.id} | Nome: ${item.nome} | Categoria: ${item.categoria}');
+        print('Nome: ${item.nome} | Categoria: ${item.categoria}');
       }
     }
   }
-
 
   // CREATE - Cadastrar
   static void cadastrar() {
@@ -68,36 +66,32 @@ class Almoxarifado {
     proximoId++;
 
     print('Item cadastrado com sucesso!');
-    print('ID gerado: ${novoItem.id}');
   }
 
-
   // READ - Buscar pelo ID
-  static Item? buscarPorId(int id) {
+  static Item? buscarPorNome(String nomeBusca) {
     for (Item item in itens) {
-      if (item.id == id) {
+      if (item.nome.toLowerCase() == nomeBusca.toLowerCase()) {
         return item;
       }
     }
-
     return null;
   }
 
-
   // UPDATE - Atualizar
   static void atualizar() {
-    print('Digite o ID do item que deseja atualizar:');
-    int? id = int.tryParse(stdin.readLineSync() ?? '');
+    print('Digite o nome do item que deseja atualizar:');
+    String nomeBusca = stdin.readLineSync()?.trim() ?? '';
 
-    if (id == null) {
-      print('ID inválido.');
+    if (nomeBusca.isEmpty) {
+      print('Nome inválido.');
       return;
     }
 
-    Item? item = buscarPorId(id);
+    Item? item = buscarPorNome(nomeBusca);
 
     if (item == null) {
-      print('Item não encontrado.');
+      print('Item não encontrado!');
       return;
     }
 
@@ -118,18 +112,17 @@ class Almoxarifado {
     print('Item atualizado com sucesso!');
   }
 
-
   // DELETE - Excluir
   static void excluir() {
-    print('Digite o ID do item que deseja excluir:');
-    int? id = int.tryParse(stdin.readLineSync() ?? '');
+    print('Digite o nome do item que deseja excluir:');
+    String nomeBusca = stdin.readLineSync()?.trim() ?? '';
 
-    if (id == null) {
-      print('ID inválido.');
+    if (nomeBusca.isEmpty) {
+      print('Nome inválido.');
       return;
     }
 
-    Item? item = buscarPorId(id);
+    Item? item = buscarPorNome(nomeBusca);
 
     if (item == null) {
       print('Item não encontrado.');

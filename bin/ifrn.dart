@@ -24,7 +24,7 @@ void main(List<String> arguments) {
 
   String? input;
   do {
-    print('============= IFRN Suíte =============\n');
+    print('============= IFRN Almoxarifado =============\n');
 
     print('Menu:');
     for (int i = 0; i < opcoes.length; i++) {
