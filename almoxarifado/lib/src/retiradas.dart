@@ -20,7 +20,22 @@ class Retiradas {
   }
 
   static String _normalizarPerfil(String perfil) {
-    return perfil.trim().toLowerCase().replaceAll('-', '_').replaceAll(' ', '_');
+    return perfil
+        .trim()
+        .toLowerCase()
+        .replaceAll('á', 'a')
+        .replaceAll('ã', 'a')
+        .replaceAll('â', 'a')
+        .replaceAll('é', 'e')
+        .replaceAll('ê', 'e')
+        .replaceAll('í', 'i')
+        .replaceAll('ó', 'o')
+        .replaceAll('ô', 'o')
+        .replaceAll('õ', 'o')
+        .replaceAll('ú', 'u')
+        .replaceAll('ç', 'c')
+        .replaceAll('-', '_')
+        .replaceAll(' ', '_');
   }
 
   /// Registra uma retirada e atualiza o estoque.
@@ -83,9 +98,9 @@ class Retiradas {
         'titulo': 'Efetuar retirada de item',
         'perfisPermitidos': perfisPermitidos,
         'metodo': () => efetuarRetirada(
-              nomeUsuario: nomeUsuario,
-              perfilUsuario: perfilUsuario,
-            ),
+          nomeUsuario: nomeUsuario,
+          perfilUsuario: perfilUsuario,
+        ),
       },
       {
         'titulo': 'Listar retiradas realizadas',
@@ -100,8 +115,10 @@ class Retiradas {
     required String perfilUsuario,
   }) {
     if (!temPermissao(perfilUsuario)) {
-      print('Acesso negado. Somente professores e técnicos-administrativos '
-          'podem efetuar retiradas.');
+      print(
+        'Acesso negado. Somente professores e técnicos-administrativos '
+        'podem efetuar retiradas.',
+      );
       return;
     }
 

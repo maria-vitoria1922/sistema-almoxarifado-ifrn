@@ -9,6 +9,9 @@ dependencies:
   args: ^2.7.0
   almoxarifado:
     path: ./almoxarifado
+  usuarios:
+    path: ./usuarios
+
     
 dev_dependencies:
   lints: ^6.0.0
