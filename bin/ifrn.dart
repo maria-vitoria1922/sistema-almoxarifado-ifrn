@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:almoxarifado/almoxarifado.dart';
+import 'package:usuarios/usuarios.dart';
 
 const String version = '0.0.1';
 
